@@ -22,6 +22,7 @@ class Baidu(unittest.TestCase):
     
     #百度搜索用例
     def test_baidu(self):
+        u'''百度搜索测试'''
         driver = self.driver
         driver.get(self.base_url)
         driver.find_element_by_id("kw").click()
@@ -35,20 +36,16 @@ class Baidu(unittest.TestCase):
         self.driver.quit()
         self.assertEqual([], self.verificationErrors)
 
-if __name__ == "test-case":
-    #定义一个测试容器
-    test = unittest.TestSuite()
-
-    #将测试用例，加入到测试容器中
-    test.addTest(Baidu("test_baidu"))
-
-    #定义个报告存放的路径，支持相对路径
-    file_path = "E:\\eclipse\\eclipse-workspace\\test\\result.html"
-    file_result= open(file_path, 'wb')
-
+if __name__ == "__main__":
+     #定义一个单元测试容器
+    testunit = unittest.TestSuite()
+    #将测试用例加入到测试容器中
+    testunit.addTest(Baidu("test_baidu"))
+    #定义报告存放路径
+    filename = r'E:\git\python-learn\src\report\result1.html'
+    fp = open(filename,'wb')
     #定义测试报告
-    runner = HTMLTestRunner.HTMLTestRunner(stream = file_result, title = u"百度搜索测试报告", description = u"用例执行情况")
-
+    runner =HTMLTestRunner.HTMLTestRunner(stream=fp,title=u'测试报告',description=u'测试用例执行情况')
+    
     #运行测试用例
-    runner.run(test)
-    file_result.close()
+    runner.run(testunit)

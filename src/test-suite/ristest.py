@@ -19,6 +19,7 @@ class UntitledTestCase(unittest.TestCase):
         self.accept_next_alert = True
     
     def test_untitled_test_case(self):
+        u'''单元测试体验'''
         driver = self.driver
         
     
@@ -53,15 +54,10 @@ if __name__ == "__main__":
     #将测试用例加入到测试容器中
     testunit.addTest(UntitledTestCase("test_untitled_test_case"))
     #定义报告存放路径
-    filename = 'E:\\eclipse\\eclipse-workspace\\test\\result.html'
+    filename = r'E:\git\python-learn\src\report\result.html'
     fp = open(filename,'wb')
     #定义测试报告
-    runner =HTMLTestRunner.HTMLTestRunner(
-        stream=fp,
-        title=u'测试报告',
-        description=u'测试用例执行情况')
+    runner =HTMLTestRunner.HTMLTestRunner(stream=fp,title=u'测试报告',description=u'测试用例执行情况')
     
     #运行测试用例
-    runner = unittest.TextTestRunner()
     runner.run(testunit)
-    fp.close()
