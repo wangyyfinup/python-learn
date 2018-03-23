@@ -19,13 +19,15 @@ class UntitledTestCase(unittest.TestCase):
     def test_untitled_test_case(self):
         u'''模糊搜索筛选条件测试'''
         driver = self.driver
+        #登录
         driver.get("http://10.129.0.240:8083/login")
-        driver.find_element_by_xpath("//input[@type='text']").send_keys("wangyanyan")
-        driver.find_element_by_xpath("//input[@type='password']").send_keys("123456")
+        driver.find_element_by_xpath("//input[@type='text']").send_keys("zdhcs_02")
+        driver.find_element_by_xpath("//input[@type='password']").send_keys("1q2w3e4r5t%")
         driver.find_element_by_xpath("(//input[@type='text'])[2]").send_keys("Qw5e!")
         driver.find_element_by_xpath("//button[@type='button']").click()
+        #点击导航栏，进入信息搜索模块
         driver.find_element_by_xpath("//div[@id='sysHead_div']/li[5]").click()
-
+        #输入北京，进行模糊搜索
         driver.find_element_by_xpath("//*[@id='searchApp']/div[1]/div/form/div/div/div/div[1]/div/input").send_keys(u"北京")
         driver.find_element_by_css_selector("#searchApp > div.s_row.ivu-row > div > form > div > div > div > div.s-right > img").click()
         # 点击展开
