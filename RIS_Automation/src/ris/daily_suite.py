@@ -1,31 +1,27 @@
-
-from selenium import webdriver
-from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.support.ui import WebDriverWait  
-import time
-
-class TestCase:
-    def setUp(self):
-        self.driver = webdriver.ChromeOptions()
-        browser_url = r'C:\Users\Administrator\AppData\Local\360Chrome\Chrome\Application\360chrome.exe'
-        self.driver.binary_location = browser_url
-        
-chromeOptions = webdriver.ChromeOptions()
-chromeOptions.binary_location = browser_url
-c = webdriver.Chrome(chrome_options = chromeOptions
-                     
-#driver = webdriver.ChromeOptions()  # 
- 
-# 打开谷歌浏览器
-driver = chromeOptions
-driver.get("http://www.youku.com")
- 
-# 通过q这个属性来找元素 （谷歌搜索框）
-inputElement = driver.find_element_by_name("q")
- 
-# 在搜索框中输入beyond，题外话，beyond是我比较喜欢的乐队，我很喜欢吉他的，正在学呢
-inputElement.send_keys("beyond")
- 
-# 提交搜索信息
-inputElement.submit()
- 
+#coding=Utf-8
+##创建日常监测模块的测试suite，生成自动化测试报告
+import unittest
+import HTMLTestRunner
+import time,sys,os
+pwd=os.getcwd()
+if not pwd+"\cases" in sys.path:
+    sys.path.append(pwd+"\cases")
+import  daily_creategroup,daily_createtask,daily_turnpage,daily_selectinfo,daily_listoperation,daily_propagatepath,daily_duplicatecheck,index_addpicture,daily_similarmerge
+testunit=unittest.TestSuite()
+#将测试用例添加到套件
+testunit.addTest(unittest.makeSuite(daily_creategroup.UntitledTestCase))
+testunit.addTest(unittest.makeSuite(daily_createtask.UntitledTestCase))
+testunit.addTest(unittest.makeSuite(daily_turnpage.UntitledTestCase))
+testunit.addTest(unittest.makeSuite(daily_selectinfo.UntitledTestCase))
+testunit.addTest(unittest.makeSuite(daily_listoperation.UntitledTestCase))
+testunit.addTest(unittest.makeSuite(daily_propagatepath.UntitledTestCase))
+testunit.addTest(unittest.makeSuite(daily_duplicatecheck.UntitledTestCase))
+testunit.addTest(unittest.makeSuite(index_addpicture.UntitledTestCase))
+testunit.addTest(unittest.makeSuite(daily_similarmerge.UntitledTestCase))
+#定义报告存放路径
+now= time.strftime("%Y-%m-%d-%H-%M-%S",time.localtime(time.time()))
+filename= pwd+r'\report\daily-' + now + r'-report.html'
+fp = open(filename,'wb')
+runner =HTMLTestRunner.HTMLTestRunner(stream=fp,title=u'日常监测模块测试报告',description=u'用例执行情况：')
+#执行测试用例
+runner.run(testunit)

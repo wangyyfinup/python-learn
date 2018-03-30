@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
-import unittest, time,os
+import unittest,time
 
 class UntitledTestCase(unittest.TestCase):
     def setUp(self):
@@ -9,7 +9,7 @@ class UntitledTestCase(unittest.TestCase):
         self.driver.implicitly_wait(30)
     
     def test_untitled_test_case(self):
-        u'''模糊搜索测试'''
+        u'''微博传播路径测试'''
         driver = self.driver
         #登录
         driver.get("http://10.129.0.240:8083/login")
@@ -17,11 +17,6 @@ class UntitledTestCase(unittest.TestCase):
         driver.find_element_by_xpath("//input[@type='password']").send_keys("1q2w3e4r5t%")
         driver.find_element_by_xpath("(//input[@type='text'])[2]").send_keys("Qw5e!")
         driver.find_element_by_xpath("//button[@type='button']").click()
-        #time.sleep(30)
-        #print(os.getcwd())
-        pic_path='screenshot\\'+time.strftime("%Y-%m-%d-%H-%M-%S",time.localtime(time.time()))+'.png'
-        #print(pic_path)
-        driver.save_screenshot(pic_path)
         #验证导航栏内容
         navigation_list=['首页','日常监测','事件追踪','帐号监测','信息搜索','报告管理','境外帐号监测']
         for i in range(1,8):
@@ -36,6 +31,31 @@ class UntitledTestCase(unittest.TestCase):
         #验证信息列表的数量大于0
         list_num=driver.find_element_by_xpath("//*[@id='searchComplexApp']/div[2]/div[6]/div[2]/div[1]/div[1]/span[2]").text
         assert int(list_num) > 0
+
+        #查看新闻,微信类型信息的传播路径
+        pathlist={'11':'新闻传播路径','21':'微信传播路径'}
+        for key in pathlist:
+            driver.find_element_by_id("info_"+str(key)).click()
+            time.sleep(3)
+            driver.find_element_by_xpath('//*[@id="report"]/table/tbody/tr[1]/div[2]/div[3]/a[1]').click()
+            time.sleep(2)
+            winname=driver.find_element_by_xpath('/html/body/div[7]/div[2]/div/div/div[1]/p').text
+            assert winname == pathlist[key]
+            time.sleep(15)
+            content=driver.find_element_by_xpath('/html/body/div[7]/div[2]/div/div/div[2]/div/div/div[1]/span[1]/span').text
+            assert content=="(定位此文章)"
+            driver.find_element_by_xpath('/html/body/div[7]/div[2]/div/div/a/i').click()
+            time.sleep(2)
+        #查看微博类型的传播路径
+        driver.find_element_by_id("info_22").click()
+        time.sleep(3)
+        driver.find_element_by_css_selector('#report > table > tbody > tr:nth-child(2) > div.clist > div.info > a:nth-child(6)').click()
+        time.sleep(2)
+        winname=driver.find_element_by_xpath('/html/body/div[7]/div[2]/div/div/div[1]/p').text
+        assert winname == "微博传播路径"
+        time.sleep(5)
+        driver.find_element_by_xpath('/html/body/div[7]/div[2]/div/div/a/i').click()
+
 
     def tearDown(self):
         self.driver.quit()
